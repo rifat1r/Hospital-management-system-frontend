@@ -11,18 +11,18 @@ const AuthProvider = ({ children }) => {
 
   const createUser = async (data) => {
     setLoading(true);
-    const res = await axiosPublic.post("/auth/register", data);
+    const res = await axiosPublic.post("/user/register", data);
     return res;
   };
 
   const loginUser = async (data) => {
     setLoading(true);
-    const res = await axiosPublic.post("/auth/login", data);
+    const res = await axiosPublic.post("/user/login", data);
     return res;
   };
 
   const logoutUser = async () => {
-    const res = await axiosPublic.get("/auth/logout");
+    const res = await axiosPublic.get("/user/logout");
     return res;
   };
 
@@ -36,7 +36,7 @@ const AuthProvider = ({ children }) => {
     }
     try {
       console.log("user refetching...");
-      const res = await axiosPublic.get("/auth/profile");
+      const res = await axiosPublic.get("/user/profile");
       setUser(res.data.user);
       console.log(res.data);
       setLoading(false);

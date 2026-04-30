@@ -16,11 +16,16 @@ const TableActions = ({ user, refetch }) => {
       const res = await deleteUser(axiosSecure, user);
       if (res.data.success) {
         refetch();
-        swal("success", "User Deleted", res.data.msg, true);
+        swal("success", "User Deleted!", res.data.message, true);
       }
     } catch (error) {
       if (error.response.status) {
-        swal("error", "Failed to delete user", error.response.data.msg, true);
+        swal(
+          "error",
+          "Failed to delete user",
+          error.response.data.message,
+          true
+        );
       }
     }
   };

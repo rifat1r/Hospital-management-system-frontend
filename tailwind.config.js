@@ -7,8 +7,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     ".flowbite-react\\class-list.json",
   ],
+  darkMode: "class",
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui"), flowbiteReact],
+  plugins: [flowbiteReact],
 };

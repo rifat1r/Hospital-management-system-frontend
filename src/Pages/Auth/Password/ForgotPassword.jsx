@@ -18,12 +18,12 @@ const ForgotPassword = () => {
       // console.log("res", res);
       if (res.status === 200) {
         setIsloading(false);
-        swal("success", "Success!", res.data.msg, true);
+        swal("success", "Success!", res.data.message, true);
       }
     } catch (error) {
       if (error.response.status === 404) {
         setIsloading(false);
-        swal("error", "Could not send email", error.response.data.msg);
+        swal("error", "Could not send email", error.response.data.message);
       }
       // console.log("error", error);
     }

@@ -1,5 +1,5 @@
 import DashboardLayout from "../../Layout/DashboardLayout/DashboardLayout";
-import AdminDashboard from "../../Pages/Dashboard/Admin/AdminDashboard";
+import AdminDashboard from "../../Pages/Dashboard/Admin/AdminOverview";
 import AllUsers from "../../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import UserProfile from "../../Components/User/UserProfile";
 import PrivateRoute from "../guards/PrivateRoute";

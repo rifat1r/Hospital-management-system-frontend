@@ -28,7 +28,7 @@ const UserProfile = () => {
       : // for self profile only
         null;
 
-  console.log("userinfo", !!userInfo);
+  // console.log("userinfo", !!userInfo);
   // Fetch user data based on userType and userId
   const { data: profile = {}, refetch } = useQuery({
     queryKey: ["userProfile", userType, userId],
@@ -46,14 +46,14 @@ const UserProfile = () => {
       console.log("res", res.error);
       if (res.success) {
         refetch();
-        notify(res.msg, "success");
+        notify(res.message, "success");
       }
     } catch (error) {
-      // console.log("error--", error.response.data.msg);
+      // console.log("error--", error.response.data.message);
       if (error.response) {
-        swal("error", "Could not Update Profile ", error.response.data.msg);
+        swal("error", "Could not Update Profile ", error.response.data.message);
         refetch();
-        // notify(error.response.data.msg, "error");
+        // notify(error.response.data.message, "error");
       }
     }
   };

@@ -1,6 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchUsersByRole } from "../../../api/userApi";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import {
   Table,
   TableBody,
@@ -12,30 +9,17 @@ import {
 import userFieldConfig from "../../../Pages/Dashboard/Admin/AllUsers/userFieldConfig";
 import TableActions from "./TableActions";
 import CreateRoleBasedUserModal from "../../../Pages/Dashboard/Admin/CreateRoleBasedUser/CreateRoleBasedUserModal";
+import useGetUsersByRole from "../../../hooks/useGetUsersByRole";
 
 const UserTable = ({ userType }) => {
-  const axiosSecure = useAxiosSecure();
+  // this hook fetches users based on the userType (doctor, admin, patient)
+  const { users, refetch } = useGetUsersByRole(userType);
 
-  const { data = {}, refetch } = useQuery({
-    queryKey: [userType, "all-users"],
-    queryFn: async () => {
-      const res = await fetchUsersByRole(axiosSecure, userType);
-      return res;
-    },
-  });
-
-  const userTypeKeyMap = {
-    doctor: "doctors",
-    admin: "admins",
-    patient: "patients",
-  };
-
-  // users key like doctors,patiets, etc.
-  const key = userTypeKeyMap[userType];
-  const users = data[key] || [];
+  console.log("page rendering");
 
   return (
-    <div className=" -mt-2">
+    <div className="-mt-2">
+      {/* admins dont create patients */}
       {userType !== "patient" && <CreateRoleBasedUserModal role={userType} />}
 
       <Table>
@@ -50,7 +34,7 @@ const UserTable = ({ userType }) => {
         <TableBody>
           {users.map((user) => (
             <TableRow key={user._id}>
-              {userFieldConfig[userType].row(user).map((field, i) => (
+              {userFieldConfig[userType]?.row(user).map((field, i) => (
                 <TableCell key={i}>{field}</TableCell>
               ))}
               {/* actions */}

@@ -3,27 +3,38 @@ import Swal from "sweetalert2";
 
 export const notify = (message, type) => {
   toast(message, {
-    position: "top-left",
+    position: "top-center",
     autoClose: 3000,
     type: type || "default",
+    hideProgressBar: true,
   });
 };
 
-export const swal = (icon, title, text, autoClose = false) => {
-  Swal.fire({
+export const swal = async (
+  icon,
+  title,
+  text = null,
+  autoClose = false,
+  btnTxt,
+) => {
+  const res = await Swal.fire({
     icon: icon || "info",
     title,
     text,
     showConfirmButton: !autoClose,
-    timer: autoClose ? 1500 : undefined,
+    confirmButtonText: btnTxt || "Ok",
+    timer: autoClose ? 2000 : undefined,
+    draggable: true,
+    showCancelButton: btnTxt && true,
   });
+  return res;
 };
 
 export const swalConfirm = async (name) => {
   // asks the user to confirm an action
   const res = await Swal.fire({
     title: "Are you sure?",
-    text: `Its going to delete ${name}'s profile permanently! `,
+    text: `Its going to delete ${name}'s profile permanently!`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",

@@ -1,6 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import ErrorMsg from "../ErrorMsg";
+import Errormessage from "../../Components/ErrorMsg";
 import { updatePassword } from "../../api/userApi";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { notify } from "../../utils/notify";
@@ -18,11 +18,11 @@ const UpdatePassword = () => {
     try {
       const res = await updatePassword(axiosSecure, data);
       if (res.success) {
-        notify(res.msg, "success");
+        notify(res.message, "success");
       }
     } catch (error) {
       if (error.response) {
-        notify(error.response.data.msg, "error");
+        notify(error.response.data.message, "error");
       }
     }
   };
@@ -45,7 +45,7 @@ const UpdatePassword = () => {
                 type="password"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.oldPassword} />
+              <Errormessage message={errors?.password} />
             </div>
             <div>
               <div className="mb-2 block">
@@ -59,7 +59,7 @@ const UpdatePassword = () => {
                 type="password"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.newPassword} />
+              <Errormessage message={errors?.newPassword} />
             </div>
             <div>
               <div className="mb-2 block">
@@ -73,7 +73,7 @@ const UpdatePassword = () => {
                 type="password"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.confirmPassword} />
+              <Errormessage message={errors?.confirmPassword} />
             </div>
             <div className="flex justify-end">
               <Button type="submit" color="blue">

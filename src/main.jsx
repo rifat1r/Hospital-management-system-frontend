@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ToastContainer />
-        <div className="max-w-7xl mx-auto  h-screen">
+        <div className="max-w-7xl mx-auto">
           <RouterProvider router={router} />
         </div>
       </AuthProvider>

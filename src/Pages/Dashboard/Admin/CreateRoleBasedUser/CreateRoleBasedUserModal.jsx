@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 import { notify } from "../../../../utils/notify";
-import ErrorMsg from "../../../../Components/ErrorMsg";
 import UserForm from "../../../../Components/Shared/UserForm";
 import { IoMdPersonAdd } from "react-icons/io";
 
@@ -24,7 +23,7 @@ const CreateRoleBasedUserModal = ({ role }) => {
       const res = await createUser(data);
       console.log(res.data);
       if (res.status === 201) {
-        notify(`${res.data.msg}`, "success");
+        notify(`${res.data.message}`, "success");
         // reset();
         setOpenModal(false);
       }
@@ -55,7 +54,7 @@ const CreateRoleBasedUserModal = ({ role }) => {
         <ModalHeader />
         <ModalBody>
           <div className="space-y-6 ">
-            <h3 className="text-2xl font-medium text-gray-900 dark:text-white mb-8  ">
+            <h3 className="text-2xl font-medium text-gray-900  mb-8  ">
               Register a new {role}
             </h3>
 

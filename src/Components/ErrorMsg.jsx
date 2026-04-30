@@ -1,6 +1,8 @@
-const ErrorMsg = ({ msg }) => {
-  // console.log("msg", msg);
-  return msg ? <p className="text-red-500 text-sm">{msg.message}</p> : null;
+const Errormessage = ({ message }) => {
+  // console.log("message", message);
+  return message ? (
+    <p className="text-red-500 text-sm">{message.message}</p>
+  ) : null;
 };
 
-export default ErrorMsg;
+export default Errormessage;

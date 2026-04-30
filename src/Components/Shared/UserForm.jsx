@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import ErrorMsg from "../ErrorMsg";
-import { Button, FileInput, Label, TextInput } from "flowbite-react";
+import Errormessage from "../../Components/ErrorMsg";
+import { Button, FileInput, Label, Select, TextInput } from "flowbite-react";
 
 const UserForm = ({ role, onSubmit, profile }) => {
   const {
@@ -14,17 +14,18 @@ const UserForm = ({ role, onSubmit, profile }) => {
     values: profile,
   });
 
-  // one column for self profile and two column for other cases
+  // one column for visiting profile and two columns for other cases
   const gridClass = `grid ${
     profile ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
   } gap-2 items-baseline mb-2`;
+
   return (
     <div className={`${profile && "lg:w-3/5"} w-full`}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={gridClass}>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="name"> Name</Label>
+              <Label htmlFor="name">Name</Label>
             </div>
             <TextInput
               {...register("name", { required: "Please provide name" })}
@@ -32,11 +33,11 @@ const UserForm = ({ role, onSubmit, profile }) => {
               type="text"
             />
             {/* error message */}
-            <ErrorMsg msg={errors?.name} />
+            <Errormessage message={errors?.name} />
           </div>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="name"> Email</Label>
+              <Label htmlFor="name">Email</Label>
             </div>
             <TextInput
               {...register("email", {
@@ -46,13 +47,14 @@ const UserForm = ({ role, onSubmit, profile }) => {
               placeholder="Email here"
             />
             {/* error message */}
-            <ErrorMsg msg={errors?.email} />
+            <Errormessage message={errors?.email} />
           </div>
+
           {/* dont show password field when visit profile */}
           {!profile && (
             <div>
               <div className="my-2 block">
-                <Label htmlFor="email">Password</Label>
+                <Label>Password</Label>
               </div>
               <TextInput
                 {...register("password", {
@@ -61,7 +63,7 @@ const UserForm = ({ role, onSubmit, profile }) => {
                 placeholder="Password here"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.password} />
+              <Errormessage message={errors?.password} />
             </div>
           )}
           <div>
@@ -74,7 +76,7 @@ const UserForm = ({ role, onSubmit, profile }) => {
               placeholder="Phone number"
             />
             {/* error message */}
-            <ErrorMsg msg={errors?.number} />
+            <Errormessage message={errors?.number} />
           </div>
         </div>
 
@@ -93,22 +95,57 @@ const UserForm = ({ role, onSubmit, profile }) => {
                 placeholder="Designation here"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.designation} />
+              <Errormessage message={errors?.designation} />
             </div>
 
             <div>
               <div className="mb-2 block">
-                <Label>Passing year</Label>
+                <Label>Years of experience</Label>
               </div>
               <TextInput
-                {...register("passingYear", {
-                  required: role === "doctor" && "Please provide passing year",
+                {...register("yearsOfExperience", {
+                  required:
+                    role === "doctor" && "Please provide years of experience",
                 })}
                 type="number"
-                placeholder="Passing year here"
+                placeholder="Years of experience here"
               />
               {/* error message */}
-              <ErrorMsg msg={errors?.passingYear} />
+              <Errormessage message={errors?.yearsOfExperience} />
+            </div>
+            <div>
+              <Label>Date of Birth</Label>
+
+              <TextInput
+                type="date"
+                {...register("birthDate", {
+                  required: "Birth date is required",
+                  validate: (value) =>
+                    new Date(value) < new Date() ||
+                    "Birth date must be in the past",
+                })}
+              />
+              {errors.birthDate && (
+                <p className="text-sm text-red-500">
+                  {errors.birthDate.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <Label>Gender</Label>
+              <Select
+                id="gender"
+                {...register("gender", {
+                  validate: (value) => value !== "select" || "Select a gender",
+                })}
+              >
+                <option value="select">Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </Select>
+              {errors.gender && (
+                <p className="text-sm text-red-500">{errors.gender.message}</p>
+              )}
             </div>
           </div>
         )}
@@ -123,7 +160,7 @@ const UserForm = ({ role, onSubmit, profile }) => {
           </div>
           <div>
             <Label className="mb-2 block" htmlFor="file-upload">
-              Select Photo
+              Select new profile image
             </Label>
             <FileInput {...register("image")} id="file-upload" />
           </div>

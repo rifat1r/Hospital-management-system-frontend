@@ -1,10 +1,14 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
+import DashboardDrawer from "../../Components/Navigation/DashboardDrawer";
 
 const DashboardLayout = () => {
   return (
     <div>
-      <Outlet />
+      <DashboardDrawer />
+
+      <div>
+        <Outlet />
+      </div>
     </div>
   );
 };

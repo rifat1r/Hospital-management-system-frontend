@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
+import { Button, Card, Label, TextInput, Select } from "flowbite-react";
 import useAuth from "../../../hooks/useAuth";
-import { notify } from "../../../utils/notify";
+import { notify, swal } from "../../../utils/notify";
 import { useNavigate } from "react-router-dom";
+import errorMessage from "../../../utils/errorMessage";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,120 +24,84 @@ const Login = () => {
       if (res.status === 200) {
         reset();
         // fetch the user data
-        notify(res.data.msg, "success");
+        swal("success", "Login Successful", res.data.message);
         await fetchUser();
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
-      if (error.response) {
-        notify(error.response.data.msg, "error");
-      }
+      // console.log(error);
+      swal("error", "Error!!!", errorMessage(error));
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen max-w-md  mx-auto">
-      <div className="w-full md:w-3/4 px-4">
-        <div className="my-4 space-y-2  ">
-          <h1 className="text-2xl font-bold">Please Login </h1>
-          <p className="text-md">Enter your information to continue</p>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className=" space-y-5">
-          {/* email */}
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              {...register("email", { required: "Email is Required" })}
+    <div className="flex justify-center items-center min-h-screen">
+      <Card className="w-full max-w-md">
+        <h1 className="text-2xl font-bold">Login</h1>
+        <p className="text-sm text-gray-600">Enter your information to login</p>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Email */}
+          <div>
+            <Label>Email</Label>
+            <TextInput
               type="email"
-              name="email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=""
+              placeholder="Enter your email"
+              {...register("email", { required: "Email is required" })}
             />
-            <label
-              for="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Email address
-            </label>
-            {/* erros for email */}
             {errors.email && (
-              <p className="text-sm text-red-400" role="alert">
-                {errors.email.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.email.message}</p>
             )}
           </div>
-          {/* password */}
-          <div className="relative z-0 w-full mb-5 group">
-            <input
+
+          {/* Password */}
+          <div>
+            <Label>Password</Label>
+            <TextInput
+              type="password"
+              placeholder="Enter your password"
               {...register("password", {
-                // password validation rules
-                required: "Password is Required",
+                required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Password should be 6 character or more",
+                  message: "Password must be at least 6 characters",
                 },
                 maxLength: {
                   value: 20,
-                  message: "Password should be 20 character or less",
+                  message: "Password must be under 20 characters",
                 },
               })}
-              type="password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
             />
-            <label
-              for="floating_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Password
-            </label>
-            {/*password validation erros */}
-            {errors.password?.type === "required" ? (
-              <p className="text-sm text-red-400" role="alert">
-                {errors.password?.message}
-              </p>
-            ) : (
-              <p className="text-sm text-red-400" role="alert">
-                {errors.password?.message}
-              </p>
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password.message}</p>
             )}
           </div>
-          <div className="relative z-0 w-1/3 mb-5 group">
-            <select
+
+          <div>
+            <Label>User role</Label>
+            <Select
               {...register("role", {
                 validate: (value) => {
-                  if (value === "select role") {
+                  if (value === "select") {
                     return "Select Role";
                   }
                 },
               })}
-              id="underline_select"
-              className="disabled block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
             >
-              <option value="select role" selected>
-                select Role
-              </option>
+              <option value="select">Select role</option>
               <option value="patient">Patient</option>
               <option value="doctor">Doctor</option>
               <option value="admin">Admin</option>
-            </select>
-            <label htmlFor="underline_select" className="sr-only">
-              Underline select
-            </label>
+            </Select>
             {errors.role && (
-              <p className="text-sm text-red-400" role="alert">
-                {errors.role.message}
-              </p>
+              <p className="text-sm text-red-500">{errors.role.message}</p>
             )}
           </div>
 
-          <button
-            type="submit"
-            className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Submit
-          </button>
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 };

@@ -18,15 +18,15 @@ const ResetPassword = () => {
       const res = await resetPassword(axiosSecure, { ...data, token });
       console.log("response", res);
       if (res.status === 200) {
-        // notify(res.data.msg, "success");
+        // notify(res.data.message, "success");
 
-        swal("success", "Success!", res.data.msg);
+        swal("success", "Success!", res.data.message);
         setIsloading(false);
         navigate("/login");
       }
     } catch (error) {
       if (error.response.status) {
-        swal("error", "Could not reset password", error.response.data.msg);
+        swal("error", "Could not reset password", error.response.data.message);
         setIsloading(false);
       }
     }

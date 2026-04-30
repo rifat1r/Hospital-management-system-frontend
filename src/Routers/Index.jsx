@@ -7,6 +7,7 @@ import ResetPassword from "../Pages/Auth/Password/ResetPassword";
 import adminRoutes from "./Roles/AdminRoutes";
 import doctorRoutes from "./Roles/DoctorRoutes";
 import MainLayout from "../Layout/MainLayout/MainLayout";
+import patientRoutes from "./Roles/PatientRoutes";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
   },
   { ...adminRoutes },
   { ...doctorRoutes },
+  { ...patientRoutes },
 ]);
 
 export default router;
